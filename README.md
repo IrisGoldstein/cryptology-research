@@ -6,4 +6,5 @@ Cyphers, decryption tools, and interface are stored in separate folders.
 
 ## Authors:
 Iris Goldstein - Cypher set, interface
+
 Astra Smalley - Cryptographic tools
