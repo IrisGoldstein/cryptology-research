@@ -18,4 +18,11 @@ public class CryptologyTools
 
 		return out;
 	}
+
+	public static String characterMapping (String text, Map<Character, String> charMap)
+	{
+		StringBuilder out;
+
+		return "pass";
+	}
 }
