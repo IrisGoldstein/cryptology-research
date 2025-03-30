@@ -13,6 +13,15 @@ public class CaesarCypher
 
 	/// CONSTRUCTORS
 	
+	/**
+	 * @param originalMessage The message to be encrypted
+	 * @param rotation The secret key; how many positions in the alphabet to rotate.
+	 * 					For instance, a value of 2 would make a -> c, etc.
+	 * @param visible Whether or not the original message and key can be freely viewed, useful for decryption practice.
+	 * @param secret Whether or not a message can be checked to see if it is the original method. <br>
+	 * 					Makes brute force attacks involving generating sequential possiblities and testing them directly infeasible. <br>
+	 * 					Turn off to allow for verification.
+	 */
 	public CaesarCypher (String originalMessage, int rotation, boolean visible, boolean secret)
 	{
 		original = originalMessage;
@@ -28,12 +37,22 @@ public class CaesarCypher
 	{
 		original = originalMessage;
 		SecureRandom secRand = new SecureRandom();
-		this.rotation = secRand.nextInt(1, 26);
+		this.rotation = secRand.nextInt(1, 25);
 		if (secret)
 			visible = false;
 		this.visible = visible;
 		this.secret = secret;
 		applyRotation();
+	}
+
+	public CaesarCypher (String originalmessage, int rotation, boolean visible)
+	{
+		this(originalmessage, rotation, visible, false);
+	}
+
+	public CaesarCypher (String originalMessage, int rotation)
+	{
+		this(originalMessage, rotation, false, false);
 	}
 
 	public CaesarCypher (String originalmessage, boolean visible)
@@ -147,11 +166,11 @@ public class CaesarCypher
 		{
 			if (Character.isLowerCase(ch))
 			{
-				encrypted += (char) boundedRotation((int) ch, rotation, (int) 'a', (int) 'z');
+				encrypted += (char) boundedRotation((int) ch, rotation, (int) 'a', (int) 'z' + 1);
 			}
 			else if (Character.isUpperCase(ch))
 			{
-				encrypted += (char) boundedRotation((int) ch, rotation, (int) 'A', (int) 'Z');
+				encrypted += (char) boundedRotation((int) ch, rotation, (int) 'A', (int) 'Z' + 1);
 			}
 			else 
 			{
@@ -166,20 +185,20 @@ public class CaesarCypher
 	 * 
 	 * @param val The value that is being rotated. Usually the index or ASCII value of a character
 	 * @param rot The number of places to rotate by
-	 * @param min The minimum bound of the interval. If the value, after rotation, is lower than this value, it will be wrapped around
-	 * @param max The maximum bound of the interval. If the value, after rotation, exceeds this value, it will be wrapped around
+	 * @param min The minimum bound of the interval (inclusive). If the value, after rotation, is lower than this value, it will be wrapped around
+	 * @param max The maximum bound of the interval (exclusive). If the value, after rotation, is greater than or equal to, it will be wrapped around
 	 */
 	private int boundedRotation(int val, int rot, int min, int max)
 	{
 		int range = max - min;
 
-		rot %= range;
+		// rot %= range;
 
 		val += rot;
 
 		if (val < min)
 			val += range;
-		if (val > max)
+		if (val >= max)
 			val -= range;
 
 		return val;
