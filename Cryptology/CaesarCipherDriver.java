@@ -11,7 +11,7 @@ public class CaesarCipherDriver
 	{
 		// var dec
 		BufferedReader fin = new BufferedReader( new FileReader("message.txt"));
-		PrintWriter fout = new PrintWriter ( new BufferedWriter ( new FileWriter("encrypted.txt")));
+		// PrintWriter fout = new PrintWriter ( new BufferedWriter ( new FileWriter("encrypted.txt")));
 		String message = "";
 		int rotation;
 		CaesarCypher cypher;
@@ -35,12 +35,12 @@ public class CaesarCipherDriver
 		}
 		
 		// output
-		fout.print(cypher);
+		// fout.print(cypher);
 		System.out.println(cypher);
 
 		// exit
 		fin.close();
-		fout.close();
+		// fout.close();
 		System.exit(0);
 	}
 }
