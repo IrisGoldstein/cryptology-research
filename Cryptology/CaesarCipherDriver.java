@@ -10,7 +10,7 @@ public class CaesarCipherDriver
 	public static void main (String[] args) throws IOException
 	{
 		// var dec
-		BufferedReader fin = new BufferedReader( new FileReader("message.txt"));
+		BufferedReader fin = new BufferedReader( new FileReader("Cryptology/message.txt"));
 		// PrintWriter fout = new PrintWriter ( new BufferedWriter ( new FileWriter("encrypted.txt")));
 		String message = "";
 		int rotation;
