@@ -1,26 +1,202 @@
 import java.io.*;
+import java.security.SecureRandom;
 import java.util.*;
+import java.util.regex.Pattern;
 
 // generally useful cryptological operations, all as static methods
 public class CryptologyTools 
 {
+	/// Useful static variables 
+	final static Pattern whiteSpace = Pattern.compile("\\s+");
+	final static Pattern punctuation = Pattern.compile("[\\p{P}\\p{S}\\p{C}]+");
+	final static Pattern nonAlphaNumeric = Pattern.compile("[^\\p{L}^\\p{N}]+");
+
 	/**
-	 * Removes all of the whitespace from a string
+	 * Remove all instances of a given regex Pattern from a string
 	 * 
-	 * @param originalString The string to remove whitespace from
-	 * @return A new string with no whitespace
+	 * @param originalString The original string, unchanged
+	 * @param pattern The Pattern to be removed
+	 * @return A new String with all elements matching the pattern removed
 	 */
-	public static String removeWhiteSpace(String originalString)
+	public static String removePattern (String originalString, Pattern pattern)
 	{
-		String[] stringArr = originalString.split("\\s");
+		Scanner scan = new Scanner(originalString).useDelimiter(pattern);
 		StringBuilder out = new StringBuilder();
 		
-		for (String str : stringArr)
+		while (scan.hasNext())
 		{
-			out.append(str);
+			out.append(scan.next());
 		}
 
 		return out.toString();
+	}
+
+	/**
+	 * Removes all of the whitespace from a String
+	 * 
+	 * @param originalString The String to remove whitespace from
+	 * @return A new String with no whitespace
+	 */
+	public static String removeWhiteSpace (String originalString)
+	{
+		return removePattern (originalString, whiteSpace);
+	}
+
+	/**
+	 * Removes all punctuation from a String
+	 * 
+	 * @param originalString The String to remove punctuation from
+	 * @return A new String with no punctuation
+	 */
+	public static String removePunctuation (String originalString)
+	{
+		return removePattern(originalString, punctuation);
+	}
+
+	/**
+	 * Removes all non-alphanumeric characters from a String
+	 * @param originalString The String to remove non-alphanumeric characters from
+	 * @return A new String with only letters and numbers
+	 */
+	public static String removeNonAlNum (String originalString)
+	{
+		return removePattern(originalString, nonAlphaNumeric);
+	}
+
+	/**
+	 * Periodically adds junk data into a String
+	 * @param inputStr The String to be garbled
+	 * @param isUpperCase Indicates whether junk characters should be uppercase or lowercase. Lowercase unless indicated otherwise.
+	 * @param frequency The number of characters between junk data
+	 * @param offset The offset in the junk data from the origin
+	 * @return A new String, with new periodic meaningless data.
+	 */
+	public static String addJunk (String inputStr, boolean isUpperCase, int frequency, int offset)
+	{
+		StringBuilder out = new StringBuilder();
+		offset %= frequency;
+		SecureRandom secRand = new SecureRandom();
+		int junk;
+		
+		for (int i = 0; i < inputStr.length(); ++i)
+		{
+			if (i % frequency == offset)
+			{
+				junk = (int) 'a' + secRand.nextInt(26);
+				if (isUpperCase)
+				{
+					junk -= 32;
+				}
+				out.append((char) junk);
+			}
+			out.append(inputStr.charAt(i));
+		}
+
+		return out.toString();
+	}
+
+	/**
+	 * Periodically adds junk data into a String
+	 * @param inputStr The String to be garbled
+	 * @param isUpperCase Indicates whether junk characters should be uppercase or lowercase. Lowercase unless indicated otherwise.
+	 * @param frequency The number of characters between junk data, starting from the first character
+	 * @return A new String, with new periodic meaningless data.
+	 */
+	public static String addJunk (String inputStr, boolean isUpperCase, int frequency)
+	{
+		return addJunk(inputStr, isUpperCase, frequency, 0);
+	}
+
+	/**
+	 * Periodically adds junk data into a String with a random (2-7 characters), evenly spaced gap between junk characters
+	 * @param inputStr The String to be garbled
+	 * @param isUpperCase Indicates whether junk characters should be uppercase or lowercase. Characters are lowercase unless indicated otherwise.
+	 * @return A new String, with new periodic meaningless data.
+	 */
+	public static String addJunk (String inputStr, boolean isUpperCase)
+	{
+		SecureRandom secRand = new SecureRandom();
+		return addJunk(inputStr, isUpperCase, secRand.nextInt(2, 8), 0);
+	}
+
+	/**
+	 * Periodically adds (lowercase) junk data into a String
+	 * @param inputStr The String to be garbled
+	 * @param frequency The number of characters between junk data
+	 * @param offset The offset in the junk data from the origin
+	 * @return A new String, with new periodic meaningless data.
+	 */
+	public static String addJunk (String inputStr, int frequency, int offset)
+	{
+		return addJunk(inputStr, false, frequency, offset);
+	}
+
+	/**
+	 * Periodically adds (lowercase) junk data into a String
+	 * @param inputStr The String to be garbled
+	 * @param frequency The number of characters between junk data
+	 * @return A new String, with new periodic meaningless data.
+	 */
+	public static String addJunk (String inputStr, int frequency)
+	{
+		return addJunk(inputStr, false, frequency, 0);
+	}
+
+	/**
+	 * Periodically adds (lowercase) junk data into a String with a random (2-7 characters), evenly spaced gap between junk characters
+	 * @param inputStr The String to be garbled
+	 * @return A new String, with new, periodic meaningless data.
+	 */
+	public static String addJunk (String inputStr)
+	{
+		return addJunk (inputStr, false);
+	}
+
+	/**
+	 * Add spaces periodically into a String
+	 * @param inputStr The initial String
+	 * @param frequency The number of characters between spaces
+	 * @param offset The offset of the characters from the origin
+	 * @return A new String, with new, periodic spaces
+	 */
+	public static String addSpaces (String inputStr, int frequency, int offset)
+	{
+		StringBuilder out = new StringBuilder(inputStr.substring(0,1));
+		offset %= frequency;
+		
+		for (int i = 1; i < inputStr.length(); ++i)
+		{
+			if (i % frequency == offset)
+			{
+				out.append(' ');
+			}
+			out.append(inputStr.charAt(i));
+		}
+
+		return out.toString();
+	}
+
+	/**
+	 * Add spaces periodically into a String
+	 * @param inputStr The initial String
+	 * @param frequency The number of characters between spaces
+	 * @return A new String, with new, periodic spaces
+	 */
+	public static String addSpaces (String inputStr, int frequency)
+	{
+		return addSpaces(inputStr, frequency, 0);
+	}
+
+	/**
+	 * Add spaces periodically into a String, with a random length for the gap (2-7 characters) between the spaces
+	 * @param inputStr The initial String
+	 * @return A new String, with new, periodic spaces
+	 */
+	public static String addSpaces (String inputStr)
+	{
+		SecureRandom secRand = new SecureRandom();
+
+		return addSpaces(inputStr, secRand.nextInt(2,8), 0);
 	}
 
 	/**
