@@ -28,6 +28,7 @@ public class CryptologyTools
 			out.append(scan.next());
 		}
 
+		scan.close();
 		return out.toString();
 	}
 
