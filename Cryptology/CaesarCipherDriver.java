@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Arrays;
 
 public class CaesarCipherDriver 
 {
@@ -13,11 +14,17 @@ public class CaesarCipherDriver
 		BufferedReader fin = new BufferedReader( new FileReader("Cryptology/message.txt"));
 		// PrintWriter fout = new PrintWriter ( new BufferedWriter ( new FileWriter("encrypted.txt")));
 		String message = "";
-		int rotation;
+		int rotation, junkSpacing, junkOffset, whiteSpacing, spaceOffset;
 		CaesarCypher cypher;
+		String output;
 
 		// input
 		rotation = Integer.parseInt(fin.readLine());
+		int[] temp = Arrays.stream(fin.readLine().split("\\s")).mapToInt(x -> Integer.parseInt(x)).toArray();
+		junkSpacing = temp[0];
+		junkOffset = temp[1];
+		whiteSpacing = temp[2];
+		spaceOffset = temp[3];
 
 		while (fin.ready())
 		{
@@ -33,10 +40,46 @@ public class CaesarCipherDriver
 		{
 			cypher = new CaesarCypher(message, rotation);
 		}
+
+		// convolution
+
+		output = cypher.getEncryptedMessage();
+
+		// removing spaces if spacing changes are set
+		if (whiteSpacing != -1)
+		{
+			output = CryptologyTools.removeWhiteSpace(output);
+		}
+
+		// Adding junk
+		// if junk spacing is zero, add randomly spaced junk, -1 -> no junk
+		switch (junkSpacing) 
+		{
+			case -1:
+				break;
+			case 0:
+				output = CryptologyTools.addJunk(output);
+				break;
+			default:
+				output = CryptologyTools.addJunk(output, junkSpacing, junkOffset);
+		}
+
+		// Adding spaces
+		// if white spacing is zero, add randomly spaced spaces, -1 -> no spaces
+		switch (whiteSpacing) 
+		{
+			case -1:
+				break;
+			case 0:
+				output = CryptologyTools.addSpaces(output);
+				break;
+			default:
+				output = CryptologyTools.addSpaces(output, whiteSpacing, spaceOffset);
+		}
 		
 		// output
 		// fout.print(cypher);
-		System.out.println(cypher);
+		System.out.println(output);
 
 		// exit
 		fin.close();

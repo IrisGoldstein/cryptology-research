@@ -72,7 +72,7 @@ public class CryptologyTools
 	 * @param offset The offset in the junk data from the origin
 	 * @return A new String, with new periodic meaningless data.
 	 */
-	public static String addJunk (String inputStr, boolean isUpperCase, int frequency, int offset)
+	public static String addJunk (String inputStr, int frequency, int offset, boolean isUpperCase)
 	{
 		StringBuilder out = new StringBuilder();
 		offset %= frequency;
@@ -103,9 +103,9 @@ public class CryptologyTools
 	 * @param frequency The number of characters between junk data, starting from the first character
 	 * @return A new String, with new periodic meaningless data.
 	 */
-	public static String addJunk (String inputStr, boolean isUpperCase, int frequency)
+	public static String addJunk (String inputStr, int frequency, boolean isUpperCase)
 	{
-		return addJunk(inputStr, isUpperCase, frequency, 0);
+		return addJunk(inputStr, frequency, 0, isUpperCase);
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class CryptologyTools
 	public static String addJunk (String inputStr, boolean isUpperCase)
 	{
 		SecureRandom secRand = new SecureRandom();
-		return addJunk(inputStr, isUpperCase, secRand.nextInt(2, 8), 0);
+		return addJunk(inputStr, secRand.nextInt(2, 8), 0, isUpperCase);
 	}
 
 	/**
@@ -129,7 +129,7 @@ public class CryptologyTools
 	 */
 	public static String addJunk (String inputStr, int frequency, int offset)
 	{
-		return addJunk(inputStr, false, frequency, offset);
+		return addJunk(inputStr, frequency, offset, false);
 	}
 
 	/**
@@ -140,7 +140,7 @@ public class CryptologyTools
 	 */
 	public static String addJunk (String inputStr, int frequency)
 	{
-		return addJunk(inputStr, false, frequency, 0);
+		return addJunk(inputStr, frequency, 0, false);
 	}
 
 	/**
