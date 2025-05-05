@@ -9,7 +9,8 @@ public abstract class Parameters
 		MODIFIED_CAESAR,
 		SUBSTITUTION,
 		MODIFIED_SUBSTITUTION,
-		RSA
+		RSA,
+		NESTED
 	};
 
 	private final CipherType type;
@@ -18,4 +19,9 @@ public abstract class Parameters
 	{
 		this.type = type;
 	}
+
+	protected CipherType getCipherType() {return type;}
+
+	@Override
+	public abstract String toString();
 }

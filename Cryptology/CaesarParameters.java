@@ -7,6 +7,7 @@ public class CaesarParameters extends Parameters
 	// constructor
 	public CaesarParameters (int offset)
 	{
+		super(Parameters.CipherType.CAESAR);
 		this.offset = offset;
 	}
 

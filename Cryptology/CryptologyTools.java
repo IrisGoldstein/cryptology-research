@@ -12,6 +12,31 @@ public class CryptologyTools
 	final static Pattern nonAlphaNumeric = Pattern.compile("[^\\p{L}^\\p{N}]+");
 
 	/**
+	 * Rotate a value by a specified number of positions, constrained within a range. <br>
+	 * If the value exceeds the given range, it will wrap around.
+	 * 
+	 * @param val The value that is being rotated. Usually the index or ASCII value of a character
+	 * @param rot The number of places to rotate by
+	 * @param min The minimum bound of the interval (inclusive). If the value, after rotation, is lower than this value, it will be wrapped around
+	 * @param max The maximum bound of the interval (exclusive). If the value, after rotation, is greater than or equal to, it will be wrapped around
+	 */
+	public static int boundedRotation(int val, int rot, int min, int max)
+	{
+		int range = max - min;
+
+		// rot %= range;
+
+		val += rot;
+
+		if (val < min)
+			val += range;
+		if (val >= max)
+			val -= range;
+
+		return val;
+	}
+
+	/**
 	 * Remove all instances of a given regex Pattern from a string
 	 * 
 	 * @param originalString The original string, unchanged

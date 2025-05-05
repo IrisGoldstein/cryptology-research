@@ -166,11 +166,11 @@ public class CaesarCypher
 		{
 			if (Character.isLowerCase(ch))
 			{
-				encrypted += (char) boundedRotation((int) ch, rotation, (int) 'a', (int) 'z' + 1);
+				encrypted += (char) CryptologyTools.boundedRotation((int) ch, rotation, (int) 'a', (int) 'z' + 1);
 			}
 			else if (Character.isUpperCase(ch))
 			{
-				encrypted += (char) boundedRotation((int) ch, rotation, (int) 'A', (int) 'Z' + 1);
+				encrypted += (char) CryptologyTools.boundedRotation((int) ch, rotation, (int) 'A', (int) 'Z' + 1);
 			}
 			else 
 			{
@@ -179,28 +179,5 @@ public class CaesarCypher
 		}
 	}
 
-	/**
-	 * Rotate a value by a specified number of positions, constrained within a range. <br>
-	 * If the value exceeds the given range, it will wrap around.
-	 * 
-	 * @param val The value that is being rotated. Usually the index or ASCII value of a character
-	 * @param rot The number of places to rotate by
-	 * @param min The minimum bound of the interval (inclusive). If the value, after rotation, is lower than this value, it will be wrapped around
-	 * @param max The maximum bound of the interval (exclusive). If the value, after rotation, is greater than or equal to, it will be wrapped around
-	 */
-	private int boundedRotation(int val, int rot, int min, int max)
-	{
-		int range = max - min;
-
-		// rot %= range;
-
-		val += rot;
-
-		if (val < min)
-			val += range;
-		if (val >= max)
-			val -= range;
-
-		return val;
-	}
+	
 }

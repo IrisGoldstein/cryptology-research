@@ -55,26 +55,20 @@ public class CaesarCipherDriver
 		// if junk spacing is zero, add randomly spaced junk, -1 -> no junk
 		switch (junkSpacing) 
 		{
-			case -1:
-				break;
-			case 0:
-				output = CryptologyTools.addJunk(output);
-				break;
-			default:
-				output = CryptologyTools.addJunk(output, junkSpacing, junkOffset);
+			case -1 -> {
+                }
+			case 0 -> output = CryptologyTools.addJunk(output);
+			default -> output = CryptologyTools.addJunk(output, junkSpacing, junkOffset);
 		}
 
 		// Adding spaces
 		// if white spacing is zero, add randomly spaced spaces, -1 -> no spaces
 		switch (whiteSpacing) 
 		{
-			case -1:
-				break;
-			case 0:
-				output = CryptologyTools.addSpaces(output);
-				break;
-			default:
-				output = CryptologyTools.addSpaces(output, whiteSpacing, spaceOffset);
+			case -1 -> {
+                }
+			case 0 -> output = CryptologyTools.addSpaces(output);
+			default -> output = CryptologyTools.addSpaces(output, whiteSpacing, spaceOffset);
 		}
 		
 		// output
