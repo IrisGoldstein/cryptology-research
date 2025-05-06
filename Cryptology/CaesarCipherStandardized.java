@@ -7,14 +7,14 @@ public class CaesarCipherStandardized extends Cipher
 	// constructor
 	public CaesarCipherStandardized (String originalMessage, boolean messageViewable, boolean secret, int rotation)
 	{
-		super(originalMessage, messageViewable, secret, new CaesarParameters(rotation));
+		super(originalMessage, messageViewable, secret, new CaesarKey(rotation));
 		this.rotation = rotation;
 	}
 
 	// apply the encoding by rotating each character by the specified offset
 	// keeps capitalization, rotates digits between themselves, and ignores special characters
 	@Override
-	public String applyEncoding (String originalMessage, Parameters encodingParameters)
+	public String applyEncoding (String originalMessage, Key encodingParameters)
 	{
 		String encrypted = "";
 
